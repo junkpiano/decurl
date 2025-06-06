@@ -1,6 +1,4 @@
 import shlex
-import httpx
-import requests
 
 def parse(curl_command):
     tokens = shlex.split(curl_command)
@@ -40,34 +38,4 @@ def parse(curl_command):
         "method": method,
         "headers": headers,
         "body": data,
-    }
-    
-
-def to_requests(curl_command):
-    request_info = parse(curl_command)
-    response = requests.request(method, url, headers=headers, data=data)
-    
-    return {
-        "url": request_info["url"],
-        "method": request_info["method"],
-        "headers": request_info["headers"],
-        "body": request_info["body"],
-        "response": response
-    }
-
-def to_httpx(curl_command):
-    request_info = parse(curl_command)
-    response = httpx.request(
-        method=request_info["method"],
-        url=request_info["url"],
-        headers=request_info["headers"],
-        content=request_info["body"]
-    )
-    
-    return {
-        "url": request_info["url"],
-        "method": request_info["method"],
-        "headers": request_info["headers"],
-        "body": request_info["body"],
-        "response": response
     }
